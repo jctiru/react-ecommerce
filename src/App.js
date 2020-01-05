@@ -6,6 +6,7 @@ import { createStructuredSelector } from "reselect";
 import Header from "./components/header/header.component";
 import Spinner from "./components/spinner/spinner.component";
 import ErrorBoundary from "./components/error-boundary/error-boundary.component";
+import ErrorDisplay from "./components/error-display/error-display.component";
 import { selectCurrentUser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
 
@@ -26,11 +27,18 @@ const App = ({ checkUserSession, currentUser }) => {
   return (
     <div>
       <Header />
-      <Switch>
-        <ErrorBoundary>
-          <Suspense fallback={<Spinner />}>
+      <ErrorBoundary>
+        <Suspense fallback={<Spinner />}>
+          <Switch>
             <Route exact path="/" component={HomePage} />
             <Route path="/shop" component={ShopPage} />
+            <Route
+              exact
+              path="/contact"
+              render={() => (
+                <ErrorDisplay errorMessage="Page under construction :(" />
+              )}
+            />
             <Route exact path="/checkout" component={CheckoutPage} />
             <Route
               exact
@@ -39,9 +47,12 @@ const App = ({ checkUserSession, currentUser }) => {
                 currentUser ? <Redirect to="/" /> : <SignInAndSignUpPage />
               }
             />
-          </Suspense>
-        </ErrorBoundary>
-      </Switch>
+            <Route
+              render={() => <ErrorDisplay errorMessage="Page not found :(" />}
+            />
+          </Switch>
+        </Suspense>
+      </ErrorBoundary>
     </div>
   );
 };

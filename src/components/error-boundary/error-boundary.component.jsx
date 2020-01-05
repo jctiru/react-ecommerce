@@ -1,5 +1,7 @@
 import React from "react";
 
+import ErrorDisplay from "../error-display/error-display.component";
+
 import "./error-boundary.styles.scss";
 
 class ErrorBoundary extends React.Component {
@@ -23,12 +25,7 @@ class ErrorBoundary extends React.Component {
 
   render() {
     if (this.state.hasErrored) {
-      return (
-        <div className="error-image-overlay">
-          <div className="error-image-container"></div>
-          <h2 className="error-image-text">Something went wrong :(</h2>
-        </div>
-      );
+      return <ErrorDisplay errorMessage="Something went wrong :(" />;
     } else {
       return this.props.children;
     }
