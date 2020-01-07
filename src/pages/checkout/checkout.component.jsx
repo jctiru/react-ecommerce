@@ -51,7 +51,7 @@ const CheckoutPage = ({ cartItems, total }) => (
         <br />
         4242 4242 4242 4242 - Exp: 01/25 - CVV: 424
       </div>
-      <StripeCheckoutButton price={total} />
+      {total ? <StripeCheckoutButton price={total} /> : null}
     </div>
   </AlertProvider>
 );
