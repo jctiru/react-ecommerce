@@ -10,6 +10,7 @@ import {
   selectCartItems,
   selectCartTotal
 } from "../../redux/cart/cart.selectors";
+import { selectCurrentUser } from "../../redux/user/user.selectors";
 
 import "./checkout.styles.scss";
 
@@ -20,7 +21,7 @@ const options = {
   transition: transitions.SCALE
 };
 
-const CheckoutPage = ({ cartItems, total }) => (
+const CheckoutPage = ({ cartItems, total, currentUser }) => (
   <AlertProvider template={AlertTemplate} {...options}>
     <div className="checkout-page">
       <div className="checkout-header">
@@ -51,14 +52,24 @@ const CheckoutPage = ({ cartItems, total }) => (
         <br />
         4242 4242 4242 4242 - Exp: 01/25 - CVV: 424
       </div>
-      {total ? <StripeCheckoutButton price={total} /> : null}
+      <br />
+      {currentUser ? null : total ? (
+        <div>Please sign-in first before checkout</div>
+      ) : null}
+      {total ? (
+        <StripeCheckoutButton
+          disabled={currentUser ? false : true}
+          price={total}
+        />
+      ) : null}
     </div>
   </AlertProvider>
 );
 
 const mapStateToProps = createStructuredSelector({
   cartItems: selectCartItems,
-  total: selectCartTotal
+  total: selectCartTotal,
+  currentUser: selectCurrentUser
 });
 
 export default connect(mapStateToProps)(CheckoutPage);

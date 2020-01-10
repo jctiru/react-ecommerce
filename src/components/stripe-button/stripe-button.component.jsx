@@ -5,7 +5,7 @@ import { useAlert } from "react-alert";
 
 import Logo from "../../assets/crown.svg";
 
-const StripeCheckoutButton = ({ price }) => {
+const StripeCheckoutButton = ({ price, disabled = false }) => {
   const alert = useAlert();
   const priceForStripe = price * 100;
   const publishableKey = "pk_test_k0zjPzo8Fm45BDMd2HBZ9sZP005Wtc69HN";
@@ -41,6 +41,7 @@ const StripeCheckoutButton = ({ price }) => {
       panelLabel="Pay Now"
       token={onToken}
       stripeKey={publishableKey}
+      disabled={disabled}
     />
   );
 };
